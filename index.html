@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            width: 300px;
+            height: 550px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        label {
+            font-size: 16px;
+            color: #555;
+        }
+
+        .gender-label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .gender-input {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .gender-input label {
+            margin-right: 10px;
+        }
+
+        input[type="radio"],
+        input[type="number"] {
+            width: fit-content;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        #male, #female {
+            margin: 0 3px;
+        }
+
+        .middle {
+            margin: 0 10px
+        }
+
+        img {
+            
+            display: block; /* Make the image a block element to center it horizontally */
+            margin: 0 auto; /* Center horizontally by using auto margins */
+            max-width: 100%; /* Ensure the image doesn't exceed the container's width */
+            max-height: 100%; /* Ensure the image doesn't exceed the container's height */
+            margin-top: 193px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+Measure the circumference of the subject's waist at a horizontal level around the navel for men and at the level with the smallest width for women. Ensure the subject does not pull their stomach inwards for accurate measurements.
+Measure the circumference of the subject's neck starting below the larynx, with the tape sloping downward to the front. The subject should avoid flaring their neck outwards.
+
+For women only: Measure the circumference of the subject's hips at the largest horizontal measure.
+    </div>
+    <div class="container middle">
+        <h1>Protein Calculator</h1>
+        <form id="measurementForm">
+            <label for="gender" class="gender-label">Gender:</label>
+            <div class="gender-input">
+                <input type="radio" id="male" name="gender" value="male">
+                <label for="male">Male</label>
+                <input type="radio" id="female" name="gender" value="female">
+                <label for="female">Female</label>
+            </div>
+
+            <div class="input-group">
+                <label for="weight">Weight (lbs):</label>
+                <input type="number" id="weight" name="weight" required>
+            </div>
+
+            <div class="input-group">
+                <label for="height">Height (in):</label>
+                <input type="number" id="height" name="height" required>
+            </div>
+
+            <div class="input-group">
+                <label for="waist">Waist Circumference (in):</label>
+                <input type="number" id="waist" name="waist" required>
+            </div>
+
+            <div class="input-group">
+                <label for="neck">Neck Circumference (in):</label>
+                <input type="number" id="neck" name="neck" required>
+            </div>
+            <div class="input-group">
+                <label for="neck">Hip Circumference (in):</label>
+                <input type="number" id="hip" name="hip" required>
+            </div>
+            <button type="button" onclick="logValues()">Submit</button>
+        </form>
+    </div>
+    <div class="container">
+        <h2>Equation Outputs</h2>
+        <p id="bfpOutput">Body Fat Percentage: </p>
+        <p id="lbwOutput">Lean Body Weight: </p>
+        <p id="lowerRangeOutput">Lower Range: </p>
+        <p id="upperRangeOutput">Upper Range: </p>
+
+        <img src="/logo.png" alt="" style="width: 250px;">
+    </div>
+
+    <script>
+        function logValues() {
+            const gender = document.querySelector('input[name="gender"]:checked').value;
+            const weight = Number(document.getElementById("weight").value)
+            const height = Number(document.getElementById("height").value)
+            const waist = Number(document.getElementById("waist").value)
+            const neck = Number(document.getElementById("neck").value)
+            const hip = Number(document.getElementById("hip").value)
+
+            if (gender == "male") {
+                const bfp = 86.010 * Math.log10(waist-neck) - 70.041*Math.log10(height) + 36.76
+                const lbw = ((100 - bfp)/100) *  weight
+
+                const lowerRange = lbw * 0.5
+                const upperRange = lbw * 1.5
+
+                document.getElementById("bfpOutput").textContent = `Body Fat Percentage: ${bfp.toFixed(2)}%`;
+                document.getElementById("lbwOutput").textContent = `Lean Body Weight: ${lbw.toFixed(2)} lbs`;
+                document.getElementById("lowerRangeOutput").textContent = `Lower Range: ${lowerRange.toFixed(2)} gs`;
+                document.getElementById("upperRangeOutput").textContent = `Upper Range: ${upperRange.toFixed(2)} gs`;
+                
+        }
+
+    }
+    </script>
+</body>
+</html>
